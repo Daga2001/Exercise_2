@@ -54,7 +54,6 @@ def mk_Matrix():
         for n in range(cols):
             for word in matrix:    
                 output += word[n]
-                print("foo:" + output)
     except IndexError:
         print('Insertaste alguna linea de digitos diferente a la permitida: ' + str(cols))
         print('Intentalo de nuevo!')
