@@ -31,8 +31,12 @@ compiler = re.compile("\d+")
 matrixDimension = compiler.findall(input())
 
 #Saco los valores del array y los guardo en dos variables
-rows = int( matrixDimension[0] )
-cols = int( matrixDimension[1] )
+try:
+    rows = int( matrixDimension[0] )
+    cols = int( matrixDimension[1] )
+except Exception:
+    print('Error!, no insertaste dos números para la dimensión de la matriz.')
+    quit()
 
 #Está será la matriz
 matrix = []
