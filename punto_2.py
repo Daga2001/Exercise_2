@@ -47,17 +47,16 @@ def mk_Matrix():
     #Acá se van guardando los valores que asignemos a cada fila
     for _ in range(rows):
         rowValue = input()
+        while(len(rowValue) != cols):
+            print('Insertaste alguna linea de digitos diferente a la permitida: ' + str(cols))
+            print('Intentalo de nuevo!')
+            rowValue = input()
         matrix.append(rowValue)
 
     #Guardamos el script decodificado acá
-    try:
-        for n in range(cols):
-            for word in matrix:    
-                output += word[n]
-    except IndexError:
-        print('Insertaste alguna linea de digitos diferente a la permitida: ' + str(cols))
-        print('Intentalo de nuevo!')
-        output = mk_Matrix()
+    for n in range(cols):
+        for word in matrix:    
+            output += word[n]
 
     return output
 
