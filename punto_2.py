@@ -5,7 +5,7 @@
 # El segundo el número de columnas, por ejemplo: 7 3 indica que haremos una matriz
 # de 7 filas y 3 columnas.
 # Después se ubican los valores alfanúmericos deseados por el usuario.
-# Ejemplo
+# Ejemplo:
 # Input:
 # 7 3
 # Tsi
@@ -20,8 +20,9 @@
 
 #Importo la libreria para exp. regulares
 import re
+from typing import final
 
-print("Ingrese el script de matriz:")
+print("Input:")
 
 #Creo un compilador para que detecte un patron
 compiler = re.compile("\d+")
@@ -39,28 +40,48 @@ matrix = []
 #Esta será la salida
 output = str()
 
-#acá se van guardando los valores que asignemos a cada fila
-for _ in range(rows):
-    rowValue = input()
-    matrix.append(rowValue)
+def mk_Matrix():
+    matrix = []
+    output = str()
 
-#guardamos el script decodificado acá
-for n in range(cols):
-    for word in matrix:
-        output += word[n]
+    #Acá se van guardando los valores que asignemos a cada fila
+    for _ in range(rows):
+        rowValue = input()
+        matrix.append(rowValue)
 
-#se modifica de tal forma que se borren los valores que no son alfanuméricos
-#entre valores alfanuméricos
-regex = '\W*\w'
-regex2 = '((\W*|\w*)\w)'
-compiler = re.compile(regex)
-result = compiler.findall(output)
-result2 = re.sub('\W', ' ', ''.join(result))
-result3 = re.sub(regex2, '', output)
-output = ''.join(result2) + ''.join(result3)
+    #Guardamos el script decodificado acá
+    try:
+        for n in range(cols):
+            for word in matrix:    
+                output += word[n]
+                print("foo:" + output)
+    except IndexError:
+        print('Insertaste alguna linea de digitos diferente a la permitida: ' + str(cols))
+        print('Intentalo de nuevo!')
+        output = mk_Matrix()
 
-#Elimina espacios en blanco que sobran
-output = re.sub('\s\s+', ' ', output)
+    return output
 
-# Resultado
-print(output)
+output = mk_Matrix()
+
+#Se va a partir el output en 3 partes y se reemplazaran los simbolos por un espacio:
+#Primera parte:
+regex = '[a-zA-Z0-9]+.+'
+firstPart = re.sub(regex, '', output)
+regex = '\s+'
+part1 = re.sub(regex, ' ', ''.join(firstPart))
+#Tercera parte:
+regex = '.+[a-zA-Z0-9]+'
+thirdPart = re.sub(regex, '', output)
+regex = '\s+'
+part3 = re.sub(regex, ' ', ''.join(thirdPart))
+#Segunda parte:
+regex = part1 + '|' + part3
+secondPart = re.sub(regex, '', output)
+regex = '(\W|_)+'
+part2 = re.sub(regex, ' ', ''.join(secondPart))
+
+finalOutput = part1 + part2 + part3
+
+#Resultado
+print("Output: " + finalOutput)
